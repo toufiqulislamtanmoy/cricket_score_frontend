@@ -1,8 +1,11 @@
+import { generateRequest } from "@/helpers";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 // Function to call your Express backend for authentication
-async function yourDatabaseCheck(email, password) {
+async function user_login(email, password) {
+  const request = generateRequest();
+  console.log(request);
   try {
     const res = await fetch("http://your-express-backend-url/api/auth/login", {
       method: "POST",
@@ -38,7 +41,7 @@ const handler = NextAuth({
         const { email, password } = credentials;
 
         // Call your custom database check (which now hits the Express API)
-        const user = await yourDatabaseCheck(email, password);
+        const user = await user_login(email, password);
 
         if (user) {
           return user; // If user is valid, return user data
